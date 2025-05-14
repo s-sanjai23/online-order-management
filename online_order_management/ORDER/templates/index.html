@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Order Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f6f9fc 0%, #dbe9f4 100%);
+            min-height: calc(100vh - 60px);
+        }
+
+        .hero h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero p {
+            color: #34495e;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .register-btn {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+        }
+
+        .login-btn {
+            background: white;
+            color: #4e54c8;
+            border: 2px solid #4e54c8;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Online Order Management</h1>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome to Online Order Management</h1>
+        <p>Manage orders easily and efficiently with our platform.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('register') }}" class="hero-btn register-btn">Register</a>
+            <a href="{{ url_for('login') }}" class="hero-btn login-btn">Login</a>
+        </div>
+    </div>
+</body>
+</html>

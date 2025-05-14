@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #4e54c8;
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .status-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .update-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .update-btn:hover {
+            background: #218838;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Order Management</h2>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Order Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order['order_id'] }}</td>
+                    <td>{{ order['user_id'] }}</td>
+                    <td>{{ order['product_name'] }}</td>
+                    <td>₹{{ order['total_amount'] }}</td>
+                    <td>{{ order['status'] }}</td>
+                    <td>{{ order['order_date'] }}</td>
+                    <td>
+                        <form method="POST" class="status-form">
+                            <input type="hidden" name="order_id" value="{{ order['order_id'] }}">
+                            <select name="status" class="status-select">
+                                <option value="Pending" {% if order['status'] == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="Shipped" {% if order['status'] == 'Shipped' %}selected{% endif %}>Shipped</option>
+                                <option value="Delivered" {% if order['status'] == 'Delivered' %}selected{% endif %}>Delivered</option>
+                            </select>
+                            <button type="submit" name="update_order" class="update-btn">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
